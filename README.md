@@ -1,46 +1,74 @@
-# Huffman Compression Decoder
+# Huffman Compression & Decompression GUI
 
-## Overview
-This project implements a Huffman Compression Decoder in C++. It reads a metadata file (`metadata.txt`) containing Huffman codes for different characters and a binary file (`zipped.bin`) containing the compressed text. The program reconstructs the Huffman tree, decodes the compressed data, and outputs the original text.
+This is a **PyQt6-based GUI** for Huffman encoding and decoding using `huffman_compressor.exe` and `huffman_decryptor.exe`. The application allows users to **compress text files or direct input** and **decompress binary files with metadata**.
 
-## Features
-- Reads and parses Huffman codes from `metadata.txt`
-- Reads encoded binary data from `zipped.bin`
-- Constructs a Huffman tree based on the provided metadata
-- Decodes the compressed binary data to retrieve the original text
-- Displays the Huffman encoding table
+## 📌 Features
+- **Compression (Encryption)**:
+  - Choose between **Text File Input** or **Direct Text Input**.
+  - Uses `huffman_compressor.exe` for encoding.
+- **Decompression (Decryption)**:
+  - Select **compressed file (`zipped.bin`)** and **metadata (`metadata.txt`)**.
+  - Uses `huffman_decryptor.exe` for decoding.
+- **Error Handling**:
+  - Checks for missing files and displays command output.
+- **Simple GUI** using PyQt6.
 
-## Files
-- `main.cpp`: The main program that executes the decoding process.
-- `metadata.txt`: Contains the Huffman encoding table.
-- `zipped.bin`: The compressed file that needs to be decoded.
+---
 
-## Compilation and Execution
-### Compile the program:
+## 🛠 Requirements
+- Python 3.x
+- PyQt6 (`pip install PyQt6`)
+- Compiled `huffman_compressor.exe` and `huffman_decryptor.exe`
+
+- OR run `repo.bat` as administrator for repository download (Automated). 
+
+---
+
+## 🚀 Installation & Usage
+
+1️⃣ **Install Dependencies**:
 ```sh
- g++ -o decoder main.cpp
+pip install PyQt6
 ```
 
-### Run the program:
+2️⃣ **Ensure `huffman_compressor.exe` and `huffman_decryptor.exe` are in the same directory.**
+
+3️⃣ **Run the GUI**:
 ```sh
- ./decoder
+python GUI.py
 ```
 
-## Expected Input Files
-### `metadata.txt` Format
-Each line should contain a character followed by its Huffman encoding, for example:
-```
-a 101
-b 111
-c 110
-```
+---
 
-### `zipped.bin`
-This file contains the binary-encoded text that needs to be decoded.
+## 📚 How to Use
 
-## Output
-The program will display the Huffman encoding table and the decoded text from `zipped.bin`.
+### 🔹 Compression (Encrypt)
+1. Click **"Encrypt (Compress)"**.
+2. Choose:
+   - **Text File** → Select a `.txt` file.
+   - **Direct Text Input** → Enter text manually.
+3. The GUI will execute `huffman_compressor.exe`.
+4. Compressed data is saved in `zipped.bin` and metadata in `metadata.txt`.
 
-## License
-This project is open-source and free to use.
+### 🔹 Decompression (Decrypt)
+1. Click **"Decrypt (Decompress)"**.
+2. Select the compressed **`zipped.bin`** file.
+3. Select the **`metadata.txt`** file.
+4. The GUI will execute `huffman_decryptor.exe`.
+5. The decoded output is displayed.
+
+---
+
+## 🛠 Troubleshooting
+- **Error: File not found** → Ensure `huffman_compressor.exe` and `huffman_decryptor.exe` are present.
+- **Output not displayed** → Check for errors in the GUI output window.
+
+---
+
+## 📜 License
+This project is for educational purposes. Modify and distribute as needed!
+
+---
+
+### ✨ Developed with PyQt6 & C++
 
