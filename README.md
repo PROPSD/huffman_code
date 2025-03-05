@@ -3,10 +3,10 @@
 This project implements **Huffman Encoding and Decoding** in C++ with a **GUI interface in Python (PyQt6)** for ease of use.
 
 ## Features
-Compress text files using Huffman Encoding
-Decompress Huffman-encoded binary files
-Python GUI for easy interaction
-Command-line interface for advanced users
+- Compress text files using Huffman Encoding
+- Decompress Huffman-encoded binary files
+- Python GUI for easy interaction
+- Command-line interface for advanced users
 
 ## Getting Started
 
