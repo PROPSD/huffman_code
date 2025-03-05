@@ -22,7 +22,7 @@ pip install PyQt6
 ```
 OR
 
-Run repo.bat for windows for automatic python repository download
+Run `repo.bat` for windows for automatic python repository download
 
 
 ### Compilation
