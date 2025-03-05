@@ -19,11 +19,11 @@ Ensure you have the following installed:
 Install PyQt6:
 ```sh
 pip install PyQt6
-
+```
 OR
 
 Run repo.bat for windows for automatic python repository download
-```
+
 
 ### Compilation
 #### **Compile the Compressor (C++)**
