@@ -2,7 +2,8 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include <cmath>
+#include <unordered_map>
+#include <algorithm>
 
 using namespace std;
 
@@ -41,31 +42,12 @@ public:
 
 vector<node*> charecter;
 vector<table> chart;
-
-void swap_node(node*& a, node*& b) {
-    node* temp = a;
-    a = b;
-    b = temp;
-}
+unordered_map<char, node*> char_map;
 
 void sort_nodes() {
-    int l = charecter.size();
-    for (int i = 0; i < l; i++) {
-        for (int j = 0; j < l - i - 1; j++) {
-            if (charecter[j]->value > charecter[j + 1]->value) {
-                swap_node(charecter[j], charecter[j + 1]);
-            }
-        }
-    }
-}
-
-void single_sort() {
-    int l = charecter.size();
-    for (int i = l - 2; i >= 0; i--) {
-        if (charecter[i]->value > charecter[i + 1]->value) {
-            swap_node(charecter[i], charecter[i + 1]);
-        } else break;
-    }
+    sort(charecter.begin(), charecter.end(), [](node* a, node* b) {
+        return a->value < b->value;
+    });
 }
 
 void print() {
@@ -81,10 +63,9 @@ node* tree() {
         node* new_node = new node(charecter[0]->value + charecter[1]->value);
         new_node->left = charecter[0];
         new_node->right = charecter[1];
-        charecter.erase(charecter.begin());
-        charecter.erase(charecter.begin());
+        charecter.erase(charecter.begin(), charecter.begin() + 2);
         charecter.push_back(new_node);
-        single_sort();
+        sort_nodes();
     }
     return charecter[0];
 }
@@ -102,16 +83,12 @@ void assign_string(node* root, string temp, vector<table>& chart) {
 
 void gather_string(string str) {
     for (char it : str) {
-        bool found = false;
-        for (int i = 0; i < charecter.size(); i++) {
-            if (charecter[i]->letter == it) {
-                charecter[i]->value++;
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            charecter.push_back(new node(it));
+        if (char_map.find(it) != char_map.end()) {
+            char_map[it]->value++;
+        } else {
+            node* new_node = new node(it);
+            charecter.push_back(new_node);
+            char_map[it] = new_node;
         }
     }
 }
@@ -143,9 +120,13 @@ stringstream print_strings(string file_name) {
     return output;
 }
 
-void store_metadata() {
-    string name = "metadata.txt";
-    fstream file(name, ios::out);
+void store_metadata(const string& filename) {
+    fstream file("metadata.txt", ios::out);
+    if (filename.empty()) {
+        file << "filename: none" << endl;
+    } else {
+        file << "filename: " << filename << endl;
+    }
     for (auto it : chart) {
         file << it.letter << ":" << it.output << endl;
     }
@@ -154,15 +135,21 @@ void store_metadata() {
 
 stringstream convert_binary(stringstream& output) {
     stringstream total;
+    string bits;
     char l;
     while (output.get(l)) {
-        total << static_cast<char>(l);
+        bits += l;
+        if (bits.length() == 8) {
+            char byte = static_cast<char>(stoi(bits, nullptr, 2));
+            total << byte;
+            bits = "";
+        }
     }
     return total;
 }
 
 void send_text(stringstream& str, string file_name) {
-    fstream file(file_name, ios::out);
+    fstream file(file_name, ios::out | ios::binary);
     char l;
     while (str.get(l)) {
         file << l;
@@ -191,7 +178,7 @@ void with_file(string file_name) {
     stringstream output = print_strings(file_name);
     stringstream str = convert_binary(output);
     send_text(str, "zipped.bin");
-    store_metadata();
+    store_metadata(file_name);
 }
 
 void with_text(string text) {
@@ -208,7 +195,7 @@ void with_text(string text) {
     }
     stringstream str = convert_binary(output);
     send_text(str, "zipped.bin");
-    store_metadata();
+    store_metadata("");
 }
 
 int main(int argc, char** argv) {
@@ -220,6 +207,11 @@ int main(int argc, char** argv) {
     if (option == "-p") with_file(argv[2]);
     else if (option == "-t") with_text(argv[2]);
     else help();
-    return 0;
     
+    for (node* n : charecter) {
+        delete n;
+    }
+    charecter.clear();
+    
+    return 0;
 }

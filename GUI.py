@@ -46,23 +46,28 @@ class HuffmanApp(QWidget):
             file_name, _ = QFileDialog.getOpenFileName(self, "Select Text File", "",
                                                        "Text Files (*.txt);;All Files (*)")
             if file_name:
-                self.run_compressor(["huffman_compressor.exe", "-p", file_name])
+                self.run_compressor(["huffman_compressor.exe", file_name])
 
         elif choice == "Direct Text Input":
             text, ok = QInputDialog.getText(self, "Enter Text", "Enter text to compress:")
             if ok and text:
-                self.run_compressor(["huffman_compressor.exe", "-t", text])
+                temp_file = "temp_input.txt"
+                with open(temp_file, "w") as f:
+                    f.write(text)
+                self.run_compressor(["huffman_compressor.exe", temp_file])
 
     def decrypt(self):
-        zipped_file, _ = QFileDialog.getOpenFileName(self, "Select Zipped File", "", "Binary Files (*.bin);;All Files (*)")
-        if not zipped_file:
-            return
-
-        metadata_file, _ = QFileDialog.getOpenFileName(self, "Select Metadata File", "", "Text Files (*.txt);;All Files (*)")
+        metadata_file, _ = QFileDialog.getOpenFileName(self, "Select Metadata File", "",
+                                                       "Text Files (*.txt);;All Files (*)")
         if not metadata_file:
             return
 
-        self.run_compressor(["huffman_decryptor.exe"])
+        zipped_file, _ = QFileDialog.getOpenFileName(self, "Select Zipped File", "",
+                                                     "Binary Files (*.bin);;All Files (*)")
+        if not zipped_file:
+            return
+
+        self.run_compressor(["huffman_decompressor.exe", metadata_file, zipped_file])
 
     def run_compressor(self, command):
         if not os.path.exists(command[0]):
