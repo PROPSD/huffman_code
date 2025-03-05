@@ -1,74 +1,90 @@
-# Huffman Compression & Decompression GUI
+# Huffman Compression & Decompression
 
-This is a **PyQt6-based GUI** for Huffman encoding and decoding using `huffman_compressor.exe` and `huffman_decryptor.exe`. The application allows users to **compress text files or direct input** and **decompress binary files with metadata**.
+This project implements **Huffman Encoding and Decoding** in C++ with a **GUI interface in Python (PyQt6)** for ease of use.
 
-## 📌 Features
-- **Compression (Encryption)**:
-  - Choose between **Text File Input** or **Direct Text Input**.
-  - Uses `huffman_compressor.exe` for encoding.
-- **Decompression (Decryption)**:
-  - Select **compressed file (`zipped.bin`)** and **metadata (`metadata.txt`)**.
-  - Uses `huffman_decryptor.exe` for decoding.
-- **Error Handling**:
-  - Checks for missing files and displays command output.
-- **Simple GUI** using PyQt6.
+## Features
+✅ Compress text files using Huffman Encoding
+✅ Decompress Huffman-encoded binary files
+✅ Python GUI for easy interaction
+✅ Command-line interface for advanced users
 
----
+## Getting Started
 
-## 🛠 Requirements
-- Python 3.x
-- PyQt6 (`pip install PyQt6`)
-- Compiled `huffman_compressor.exe` and `huffman_decryptor.exe`
+### Prerequisites
+Ensure you have the following installed:
+- **C++ Compiler (GCC/MinGW/MSVC)**
+- **Python 3**
+- **PyQt6** (for GUI)
 
-- OR run `repo.bat` as administrator for repository download (Automated). 
-
----
-
-## 🚀 Installation & Usage
-
-1️⃣ **Install Dependencies**:
+Install PyQt6:
 ```sh
 pip install PyQt6
+
+OR
+
+Run repo.bat for windows for automatic python repository download
 ```
 
-2️⃣ **Ensure `huffman_compressor.exe` and `huffman_decryptor.exe` are in the same directory.**
-
-3️⃣ **Run the GUI**:
+### Compilation
+#### **Compile the Compressor (C++)**
 ```sh
-python GUI.py
+g++ -o huffman_compressor compressor.cpp
+```
+#### **Compile the Decompressor (C++)**
+```sh
+g++ -o huffman_decryptor decryptor.cpp
 ```
 
+### Running the GUI
+Run the Python GUI:
+```sh
+python gui.py
+```
+
+## Usage
+
+### **Compression (CLI Mode)**
+To compress a file:
+```sh
+huffman_compressor -p input.txt
+```
+OR, to compress direct text input:
+```sh
+huffman_compressor -t "your text here"
+```
+This generates:
+- `zipped.bin` (compressed file)
+- `metadata.txt` (Huffman table for decompression)
+
+### **Decompression (CLI Mode)**
+To decompress:
+```sh
+huffman_decryptor metadata.txt zipped.bin
+```
+This restores the original text.
+
+### **Using the GUI**
+1. Open `gui.py`
+2. Choose **Encrypt (Compress)** or **Decrypt (Decompress)**
+3. Select the required files
+4. View the output in the GUI
+
+## File Structure
+```
+📂 Huffman Compression Project
+│── huffman_compressor.cpp  # Compressor Code
+│── huffman_decryptor.cpp   # Decompressor Code
+│── gui.py                  # PyQt6 GUI
+│── README.md               # Documentation
+│── .gitignore              # Ignore compiled files
+```
+
+## Notes
+- Ensure `metadata.txt` is always kept with `zipped.bin` for decompression.
+- The GUI automatically detects missing files and errors.
+
+## License
+This project is open-source. Feel free to modify and distribute!
+
 ---
-
-## 📚 How to Use
-
-### 🔹 Compression (Encrypt)
-1. Click **"Encrypt (Compress)"**.
-2. Choose:
-   - **Text File** → Select a `.txt` file.
-   - **Direct Text Input** → Enter text manually.
-3. The GUI will execute `huffman_compressor.exe`.
-4. Compressed data is saved in `zipped.bin` and metadata in `metadata.txt`.
-
-### 🔹 Decompression (Decrypt)
-1. Click **"Decrypt (Decompress)"**.
-2. Select the compressed **`zipped.bin`** file.
-3. Select the **`metadata.txt`** file.
-4. The GUI will execute `huffman_decryptor.exe`.
-5. The decoded output is displayed.
-
----
-
-## 🛠 Troubleshooting
-- **Error: File not found** → Ensure `huffman_compressor.exe` and `huffman_decryptor.exe` are present.
-- **Output not displayed** → Check for errors in the GUI output window.
-
----
-
-## 📜 License
-This project is for educational purposes. Modify and distribute as needed!
-
----
-
-### ✨ Developed with PyQt6 & C++
 
